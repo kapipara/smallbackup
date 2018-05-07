@@ -1,0 +1,60 @@
+RasPiのユーザー名変更
+・Raspbian(GUI付)の場合
+# 仮のユーザ(tmp)を作成する
+sudo useradd -M tmp
+# tmpユーザをsudoグループに追加
+sudo gpasswd -a tmp sudo
+# tmpユーザのパスワードを設定
+sudo passwd tmp
+# autologinを切る
+sudo vim /etc/lightdm/lightdm.conf
+	autologin-user=pi
+	#autologin-user=pi
+# GUI側のautologinも切る（[]は実際には不要）
+sudo vim /etc/systemd/system/autologin@.service
+	ExecStart=-/sbin/agetty --autologin pi --noclear %I $TERM
+	ExecStart=-/sbin/agetty --autologin [tmp] --noclear %I $TERM
+# 再起動
+sudo reboot
+
+##############################
+# したのやつと同じことをする #
+##############################
+
+# autologinを元に戻す（[]は実際には不要）
+sudo vim /etc/systemd/system/autologin@.service 
+	ExecStart=-/sbin/agetty --autologin [tmp] --noclear %I $TERM
+	ExecStart=-/sbin/agetty --autologin [hogepi] --noclear %I $TERM
+# 再起動
+sudo reboot
+
+##############################
+# したのやつと同じことをする #
+##############################
+
+
+・Raspbian liteの場合
+# 仮のユーザ(tmp)を作成する
+sudo useradd -M tmp
+# tmpユーザをsudoグループに追加
+sudo gpasswd -a tmp sudo
+# tmpユーザのパスワードを設定
+sudo passwd tmp
+# piからログアウト
+exit
+
+# <<tmpでログイン>>
+# usermod -lでユーザ名をpiからhogepiに変更
+sudo usermod -l hogepi pi
+# usermod -dで~/を/home/piから/home/hogepiに変更
+sudo usermod -d /home/hogepi -m hogepi
+# groupmod -nでpiグループをhogepiグループに変更
+sudo groupmod -n hogepi pi
+# ログアウト
+exit
+
+# <<hogepiでログイン>>
+# 仮ユーザを削除
+sudo userdel tmp
+# newpiユーザのパスワードを変更
+sudo passwd hogepi
