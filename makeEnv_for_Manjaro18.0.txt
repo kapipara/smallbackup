@@ -1,0 +1,39 @@
+sudo pacman -Syu
+sudo pacman -S xdg-user-dirs-gtk
+LANG=C xdg-user-dirs-gtk-update
+sudo pacman -S --needed qt5-translations
+sudo pacman -S fcitx-mozc fcitx-gtk2 fcitx-gtk3 fcitx-qt5 kcm-fcitx fcitx-configtool fcitx-config-gtk fcitx-config-gtk3
+sudo pacman -S vim
+sudo vim .bashrc
+	export GTK_IM_MODULE=fcitx
+	export XMODIFIERS=@im=fcitx
+	export QT_IM_MODULE=fcitx
+sudo vim .profile
+	export LANG="ja_JP.UTF-8"
+	export XMODIFIERS="@im=fcitx"
+	export XMODIFIER="@im=fcitx"
+	export GTK_IM_MODULE=fcitx
+	export QT_IM_MODULE=fcitx
+	export DefaultIMModule=fcitx
+sudo reboot
+
+sudo pacman -S yaourt
+yaourt vscode (select 1)
+yaourt google-chrome (select 2 stable version)
+sudo pacman -S wine
+sudo pacman -S winetricks
+sudo pacman -S i3 (all install)
+sudo pacman -S zsh fish
+sudo pacman -Syu
+sudo reboot
+
+yaourt slack-desktop
+gpg --recv-keys 0FC3042E345AD05D
+# 鍵を検証しないのでセキュリティリスクがあるらしい
+# libc++のインストールに必要なので，とりあえずインポート
+yaourt discord (select 10)
+# libc++のビルドに無限の計算資源を食うので，電源接続推奨
+
+git config --global user.email "kapipara_pcmail@yahoo.co.jp"
+git config --global user.name "kapipara"
+git config --global credential.helper 'cache --timeout=86400'
